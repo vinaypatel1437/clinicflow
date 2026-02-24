@@ -16,14 +16,14 @@ export default function DemoPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isSubmitting) return;
 
     setIsSubmitting(true);
 
     try {
-      await fetch("https://hooks.zapier.com/hooks/catch/26574155/uc7v10o/", {
+      const response = await fetch("/api/demo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,12 +35,16 @@ export default function DemoPage() {
         }),
       });
 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      if (!response.ok) {
+        console.error("Demo API error", await response.text());
+        alert("Something went wrong. Please try again.");
+        return;
+      }
+
       setSubmitted(true);
     } catch (error) {
-      // For this demo, we still show success even if the webhook fails.
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      setSubmitted(true);
+      console.error("Error submitting demo form", error);
+      alert("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
