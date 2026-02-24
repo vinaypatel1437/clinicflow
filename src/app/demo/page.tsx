@@ -23,7 +23,7 @@ export default function DemoPage() {
     setIsSubmitting(true);
 
     try {
-      await fetch("PASTE_ZAPIER_WEBHOOK_URL_HERE", {
+      await fetch("https://hooks.zapier.com/hooks/catch/26574155/uc7v10o/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
