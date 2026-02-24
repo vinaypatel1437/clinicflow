@@ -11,6 +11,7 @@ const services = [
 
 export default function DemoPage() {
   const [fullName, setFullName] = useState("");
+  const [countryCode, setCountryCode] = useState("+1");
   const [phone, setPhone] = useState("");
   const [service, setService] = useState(services[0]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,7 +31,7 @@ export default function DemoPage() {
         },
         body: JSON.stringify({
           name: fullName,
-          phone,
+          phone: `${countryCode} ${phone}`.trim(),
           service,
         }),
       });
@@ -103,16 +104,30 @@ export default function DemoPage() {
                   >
                     Phone Number
                   </label>
-                  <input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    required
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-gray-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
-                    placeholder="(555) 123-4567"
-                  />
+                  <div className="flex gap-3">
+                    <select
+                      id="countryCode"
+                      name="countryCode"
+                      value={countryCode}
+                      onChange={(e) => setCountryCode(e.target.value)}
+                      className="w-28 px-3 py-2.5 rounded-lg border border-gray-200 bg-white text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                    >
+                      <option value="+1">+1 (US)</option>
+                      <option value="+44">+44 (UK)</option>
+                      <option value="+61">+61 (AU)</option>
+                      <option value="+91">+91 (IN)</option>
+                    </select>
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      required
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="flex-1 px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-gray-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                      placeholder="(555) 123-4567"
+                    />
+                  </div>
                 </div>
 
                 <div>
